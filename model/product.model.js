@@ -17,6 +17,16 @@ async function create(product) {
     });
 }
 
+async function remove(id) {
+    return new Promise((resolve, reject) => {
+        const newProducts = products.filter((product) => product.id !== Number(id));
+        fs.writeFile('./data/products.json', JSON.stringify(newProducts), (err) => {
+            if (err) reject(err);
+            else resolve({ status: 200, message: 'product deleted' });
+        });
+    });
+}
+
 async function update(id, payload) {
     return new Promise((resolve, reject) => {
         products.map((product) => {
@@ -27,7 +37,7 @@ async function update(id, payload) {
         });
         fs.writeFile('./data/products.json', JSON.stringify(products), (err) => {
             if (err) reject(err);
-            else resolve({ message: 'Update Product Successfully' });
+            else resolve({ status: 200, message: 'Update Product Successfully' });
         });
     });
 }
@@ -43,6 +53,7 @@ const ProductModel = {
     getAll,
     getById,
     create,
-    update
+    update,
+    remove
 };
 module.exports = ProductModel;

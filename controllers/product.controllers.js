@@ -20,8 +20,8 @@ async function update(req, res) {
             res.writeHead(404, { 'Content-Type': 'application/json' });
             res.write(
                 JSON.stringify({
-                    message: 'Product Not Found!',
-                    status: 404
+                    status: 404,
+                    message: 'Product Not Found!'
                 })
             );
             res.end();
@@ -37,6 +37,30 @@ async function update(req, res) {
                 res.write(JSON.stringify(result));
                 res.end();
             });
+        }
+    } catch (error) {}
+}
+
+// Update Product
+async function remove(req, res) {
+    try {
+        const id = req.url.split('/')[3];
+        const availableProduct = await ProductModel.getById(Number(id));
+
+        if (!availableProduct) {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.write(
+                JSON.stringify({
+                    status: 404,
+                    message: 'Product Not Found!'
+                })
+            );
+            res.end();
+        } else {
+            const result = await ProductModel.remove(id);
+            res.writeHead(201, { 'Content-Type': 'application/json' });
+            res.write(JSON.stringify(result));
+            res.end();
         }
     } catch (error) {}
 }
@@ -74,8 +98,8 @@ async function getById(req, res) {
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.write(
             JSON.stringify({
-                message: 'Product Not Found!',
-                status: 404
+                status: 404,
+                message: 'Product Not Found!'
             })
         );
         res.end();
@@ -85,6 +109,7 @@ const ProductController = {
     get,
     getById,
     create,
-    update
+    update,
+    remove
 };
 module.exports = ProductController;

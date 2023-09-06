@@ -10,6 +10,8 @@ const server = http.createServer((req, res) => {
         ProductController.getById(req, res);
     } else if (req.url.match(/\/api\/products\/[0-9]+/) && req.method === 'PUT') {
         ProductController.update(req, res);
+    } else if (req.url.match(/\/api\/products\/[0-9]+/) && req.method === 'DELETE') {
+        ProductController.remove(req, res);
     } else if (req.url === '/api/products' && req.method === 'POST') {
         ProductController.create(req, res);
     } else {
