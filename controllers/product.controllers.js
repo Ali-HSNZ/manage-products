@@ -1,4 +1,6 @@
 const ProductModel = require('../model/product.model');
+
+// Get All Products
 async function get(req, res) {
     try {
         const products = await ProductModel.getAll();
@@ -8,6 +10,28 @@ async function get(req, res) {
     } catch (error) {}
 }
 
+// Create Product
+async function create(req, res) {
+    try {
+        let body = '';
+
+        req.on('data', (chunk) => {
+            body += chunk.toString();
+        });
+        req.on('end', async () => {
+            const product = {
+                id: Date.now(),
+                ...JSON.parse(body)
+            };
+            const result = await ProductModel.create(product);
+            res.writeHead(201, { 'Content-Type': 'application/json' });
+            res.write(JSON.stringify(result));
+            res.end();
+        });
+    } catch (error) {}
+}
+
+// Get Product By id
 async function getById(req, res) {
     try {
         const id = req.url.split('/')[3];
@@ -28,6 +52,7 @@ async function getById(req, res) {
 }
 const ProductController = {
     get,
-    getById
+    getById,
+    create
 };
 module.exports = ProductController;
