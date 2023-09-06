@@ -2,10 +2,10 @@
     "name": "manage-products",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "server.js",
     "scripts": {
-        "dev": "nodemon node index.js",
-        "start": "node index.js"
+        "dev": "nodemon node server.js",
+        "start": "node server.js"
     },
     "author": "",
     "license": "ISC",
